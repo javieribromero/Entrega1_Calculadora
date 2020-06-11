@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculadora</title>
+  <meta charset="utf-8">
+  <script type="text/javascript">
+
+  let suma=undefined;
+  let producto=undefined;
+  let text = document.getElementById("info");
+
+    const vaciar = () => {
+      document.getElementById("pantalla").value = "";
+    }
+
+    const cuadrado = () => {
+      let num = document.getElementById("pantalla");
+      num.value = num.value * num.value;
+      rellenar_info();
+      val_err(num);
+    }
+
+    const mod = () => {
+      let num = document.getElementById("pantalla");
+      if(num.value>=0){
+        num.value = num.value;
+      }
+      else{
+        num.value = -num.value;
+      }
+      rellenar_info();
+      validar(num);
+      return num.value;
+    }
+
+    const fact = () => {
+      let num = document.getElementById("pantalla");
+      let factor0 = 1;
+      for (let n=num.value; 0<n; n--){
+        factor0=factor0*n;
+      }
+      num.value= factor0;
+      rellenar_info();
+      val_err(data);
+      return num.value;
+    }
+
+    //funcion suma, donde se guarda la variable a multipilicar
+    const add = () => { 
+      suma=document.getElementById("pantalla").value;
+      val_err(suma);
+    }
+
+    //funcion suma, donde se guarda la variable a suma
+    const mul = () => { 
+      producto=document.getElementById("pantalla").value;
+      val_err(producto);
+    }
+
+    //donde se produce la "magia"
+    const eq = () => { 
+      let num=document.getElementById("pantalla");
+      if(suma!=undefined){
+        num.value= + (Number(suma)+Number(num.value));
+        suma=undefined;
+        rellenar_info(num);
+        val_err(num);
+        return num;
+      }
+      if(producto!=undefined){
+        num.value=num.value*producto;
+        producto=undefined;
+        rellenar_info(num);
+        val_err(num);
+        return num;  
+      }
+    }
+    //FUNCIÓN  que se debe actualizar cada vez que se hace un cálculo en la
+    //calculadora. Ira dentro en cada botón que hagamos
+
+    const rellenar_info = () => {
+      //cojo el objeto que representa pantalla
+      let num = document.getElementById("pantalla");
+      let sms = '';
+      if (num.value < 100) {
+        sms = 'Info: El resultado es menor que 100';
+      } else if (num.value > 200) {
+        sms = 'Info: El resultado es superior a 200';
+      } else {
+        sms = 'Info: El resultado está entre 100 y 200';
+      }
+      console.log(sms);
+      // estas dos lineas de comando actualizan
+      // el registro h2 e funcion de rell_info
+      let info = document.getElementById('info');
+      info.innerHTML = sms;
+    }
+
+    const sumatorio = () => { //Function sumatorio(), adds all the elements from a string
+      let num = document.getElementById("pantalla");
+      let list = num.value.split(","); //Transforms the numbers from the text box into an array with its number separated by comas
+      let i=0, acc=0;
+      while(i<list.length){
+        acc+= +list[i++];
+      }
+      num.value = acc;
+      val_err(list);
+    }
+
+    const ordenar = () => { //Function ordenar(), sorts the numbers
+      let num = document.getElementById("pantalla");
+      let list = num.value.split(",");
+      let ord = list.sort(); //Sorts the numbers
+      num.value = ord;
+      validar(ord);
+    }
+
+    const revertir = () => { //Function revertir(), turns the array upside down
+      let num = document.getElementById("pantalla");
+      let list = num.value.split(",");
+      let rev = list.reverse(); //Turns the array upside down
+      num.value = rev;
+      val_err(rev);
+    }
+
+    const quitar = () => {//Function quitar(), removes the last item from the array
+      let num = document.getElementById("pantalla");
+      let list = num.value.split(",");
+      let quit = list.pop(); //Removes the last item from the array
+      num.value = list;
+      val_err(list);
+    }
+
+    const val_err = () => { //Function  validar(), filter that pops up with an error message if the input data isnt the right one
+      if((num.value<10) || (num.value>=10) || (num[0]<10) || (num[0]>=10)){
+        num.value=num.value;
+      }
+      else{
+        document.getElementById("pantalla").value="Error";
+      } 
+    }
+  </script>
+</head>
+<body>
+  <h1>Calculadora de CORE. By Javier Ibáñez Romero</h1>
+  Número:
+  <input type="text" id="pantalla" onclick="vaciar()">
+  <h2 title="Info sobre el número" class="grande" id="info">
+    Info sobre el número
+  </h2>
+  <h3>Operaciones unitarias</h3>
+  <button id="cuadrado" onclick="cuadrado()">x<sup>2</sup></button>
+  <button id="modulo" onclick="mod()">mod(x)</button>
+  <button id="factorial" onclick="fact()">fact(x)</button>
+  <h3>Operaciones binarias</h3>
+  <button id="multiplicacion" onclick="mul()">x</button>
+  <button id="suma" onclick="add()">+</button>
+  <button id="igual" onclick="eq()">=</button>
+  <h3>Operaciones en CSV</h3>
+  <button id="sumatorio" onclick="sumatorio()">Σx</button>
+  <button id="ordenar" onclick="ordenar()">ordenar</button>
+  <button id="revertir" onclick="revertir()">revertir</button>
+  <button id="quitar" onclick="quitar()">quitar</button>
+ </body>
+</html>
